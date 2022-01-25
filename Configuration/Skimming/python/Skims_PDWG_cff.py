@@ -266,7 +266,7 @@ SKIMStreamEXODisappTrk = cms.FilteredStream(
     responsible = 'PDWG', 
     name = 'EXODisappTrk', 
     paths = (EXODisappTrkPath),
-    content = skimRawAODContent.outputCommands, 
+    content = EXODisappTrkSkimContent.outputCommands, 
     selectEvents = cms.untracked.PSet(), 
     dataTier = cms.untracked.string('USER')
     )

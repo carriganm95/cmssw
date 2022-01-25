@@ -1,42 +1,86 @@
 import FWCore.ParameterSet.Config as cms
 
+from Configuration.EventContent.EventContent_cff import AODSIMEventContent
+EXODisappTrkSkimContent = AODSIMEventContent.clone()
+
+EXODisappTrkSkimContent.outputCommands.append('drop *')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_ecalRecHit_EcalRecHitsEB_*')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_ecalRecHit_EcalRecHitsEE_*')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_hbhereco_*_*')
+EXODisappTrkSkimContent.outputCommands.append('keep *_reducedHcalRecHits_*_*')
+EXODisappTrkSkimContent.outputCommands.append('keep *_reducedEcalRecHits*_*_*')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_dedxHitInfo_*_*')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_dedx*Harmonic2_*_*')
+EXODisappTrkSkimContent.outputCommands.append('keep *_generalTracks_*_*')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_muons_*_*')
+
 # Unprescale HLT_MET and HLT_SinglePhoton triggers
-import HLTrigger.HLTfilters.hltHighLevel_cfi
-hltDisappTrk = HLTrigger.HLTfilters.hltHighLevel_cfi.hltHighLevel.clone()
-hltDisappTrk.TriggerResultsTag = cms.InputTag( "TriggerResults", "", "HLT" )
-hltDisappTrk.HLTPaths = cms.vstring(
-    #2016
-    "HLT_Photon175_v*",
-    "HLT_DoublePhoton60_v*",
-    "HLT_PFMET300_v*",
-    "HLT_PFMET170_HBHE_BeamHaloCleaned_v*",
+#import HLTrigger.HLTfilters.hltHighLevel_cfi
+import copy
+from HLTrigger.HLTfilters.hltHighLevel_cfi import *
+#hltDisappTrk = HLTrigger.HLTfilters.hltHighLevel_cfi.hltHighLevel.clone()
+
+hltDisappTrk = copy.deepcopy(hltHighLevel)
+hltDisappTrk.throw = cms.bool(False)
+
+#hltDisappTrk.TriggerResultsTag = cms.InputTag( "TriggerResults", "", "HLT" )
+hltDisappTrk.HLTPaths = [
+
     #2017 and 2018
-    "HLT_Photon200_v*",
-    "HLT_Photon300_NoHE_v*",
-    "HLT_DoublePhoton70_v*",
-    "HLT_PFMET140_PFMHT140_IDTight_v*",
-    "HLT_PFMET250_HBHECleaned_v*",
-    "HLT_PFMET300_HBHECleaned_v*"
-)
+    #MET
+
+    #"HLT_MET105_IsoTrk50_v*",
+    #"HLT_PFMET120_PFMHT120_IDTight_v*",
+    #"HLT_PFMET130_PFMHT130_IDTight_v*",
+    #"HLT_PFMET140_PFMHT140_IDTight_v*", 
+    #"HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v*", 
+    #"HLT_PFMETNoMu130_PFMHTNoMu130_IDTight_v*",
+    #"HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v*",
+    #"HLT_PFMET250_HBHECleaned_v*",
+    #"HLT_PFMET300_HBHECleaned_v*", 
+    #"HLT_PFMETTypePne140_PFMHT140_IDTight_v*",
+    #"HLT_PFMET200_HBHE_BeamHaloCleaned_v*",
+    #"HLT_PFMetTypeOne200_HBHE_BEAMHaloCleaned_v*",
+    #EGamma
+    #"HLT_Ele35_WPTight_Gsf_v*", 
+    #"HLT_Ele32_WPTight_Gsf_v*", 
+    #SingleMuon
+    #"HLT_IsoMu27_v*", 
+    #"HLT_IsoMu24_v*", 
+    #Tau
+    #"HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_v*",
+
+    #2016
+    #"HLT_Photon175_v*",
+    #"HLT_DoublePhoton60_v*",
+    #"HLT_PFMET300_v*",
+    #"HLT_PFMET170_HBHE_BeamHaloCleaned_v*",
+    #2017 and 2018
+    #"HLT_Photon200_v*",
+    #"HLT_Photon300_NoHE_v*",
+    #"HLT_DoublePhoton70_v*",
+    #"HLT_PFMET140_PFMHT140_IDTight_v*",
+    #"HLT_PFMET250_HBHECleaned_v*",
+    #"HLT_PFMET300_HBHECleaned_v*",
+
+    #test
+    #"HLT_Mu20_Mu10_v*",
+    #"HLT_Random_v*",
+    #"HLT_ZeroBias_v*,"
+    #"MC_CaloMHT_v*",
+    "MC_PFMET_v17"
+]
+
 hltDisappTrk.throw = False
 hltDisappTrk.andOr = True
 
-from Configuration.EventContent.EventContent_cff import AODEventContent
-EXODisappTrkSkimContent = AODEventContent.clone()
-EXODisappTrkSkimContent.outputCommands.append('keep *_hybridSuperClusters_*_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_multi5x5SuperClusters_multi5x5EndcapSuperClusters_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_multi5x5SuperClusters_uncleanOnlyMulti5x5EndcapBasicClusters_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_multi5x5SuperClusters_uncleanOnlyMulti5x5EndcapSuperClusters_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_siStripClusters_*_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_siPixelClusters_*_*')
-EXODisappTrkSkimContent.outputCommands.append('drop *_generalTracks_*_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_generalTracks_*_*')
-EXODisappTrkSkimContent.outputCommands.append('drop *_generalTracks_QualityMasks_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_ecalRecHit_EcalRecHitsEB_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_ecalRecHit_EcalRecHitsEE_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_hbhereco_*_*')
+disappTrkSelection=cms.EDFilter("TrackSelector", 
+    src = cms.InputTag("generalTracks"),
+    cut = cms.string('pt > 100 && abs(eta()) < 2.1'),
+    filter = cms.bool(True)
+)
 
-# monopole skim sequence
+# disappTrk skim sequence
 EXODisappTrkSkimSequence = cms.Sequence(
-    hltDisappTrk
+    hltDisappTrk * disappTrkSelection
     )
