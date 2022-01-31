@@ -257,7 +257,7 @@ SKIMStreamEXODisplacedJet = cms.FilteredStream(
     paths = (EXODisplacedJetPath),
     content = skimRawAODContent.outputCommands,
     selectEvents = cms.untracked.PSet(),
-    dataTier = cms.untracked.string('USER')
+    dataTier = cms.untracked.string('AOD')
     )
 
 from Configuration.Skimming.PDWG_EXODisappTrk_cff import *

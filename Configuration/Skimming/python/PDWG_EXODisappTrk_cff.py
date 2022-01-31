@@ -11,19 +11,14 @@ EXODisappTrkSkimContent.outputCommands.append('keep *_reducedHcalRecHits_*_*')
 EXODisappTrkSkimContent.outputCommands.append('keep *_reducedEcalRecHits*_*_*')
 #EXODisappTrkSkimContent.outputCommands.append('keep *_dedxHitInfo_*_*')
 #EXODisappTrkSkimContent.outputCommands.append('keep *_dedx*Harmonic2_*_*')
-EXODisappTrkSkimContent.outputCommands.append('keep *_generalTracks_*_*')
-#EXODisappTrkSkimContent.outputCommands.append('keep *_muons_*_*')
+#EXODisappTrkSkimContent.outputCommands.append('keep *_generalTracks_*_*')
 
-# Unprescale HLT_MET and HLT_SinglePhoton triggers
-#import HLTrigger.HLTfilters.hltHighLevel_cfi
 import copy
 from HLTrigger.HLTfilters.hltHighLevel_cfi import *
-#hltDisappTrk = HLTrigger.HLTfilters.hltHighLevel_cfi.hltHighLevel.clone()
 
 hltDisappTrk = copy.deepcopy(hltHighLevel)
 hltDisappTrk.throw = cms.bool(False)
 
-#hltDisappTrk.TriggerResultsTag = cms.InputTag( "TriggerResults", "", "HLT" )
 hltDisappTrk.HLTPaths = [
 
     #2017 and 2018
